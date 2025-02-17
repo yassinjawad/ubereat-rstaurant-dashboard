@@ -1,7 +1,9 @@
 import orders from '../../assets/data/orders.json';
 import { Card, Table, Tag } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
+    const navigate = useNavigate();
     const renderOrderStatus = (orderStatus) => {
         if (orderStatus === 'Accepted') {
             return <Tag color={'green'}>{orderStatus}</Tag>
@@ -28,7 +30,7 @@ const Orders = () => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
-            render: (price) => '${price} $'
+            render: (price) => `${price} $`
         },
         {
             title: 'Status',
@@ -43,6 +45,9 @@ const Orders = () => {
             dataSource={orders}
             columns={tableColumns}
             rowKey="orderID"
+            onRow={(orderItem) => ({
+                onClick: () => navigate(`order/${orderItem.orderID}`)
+            })}
             />
         </Card>
     )
